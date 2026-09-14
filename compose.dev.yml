@@ -1,0 +1,24 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: eventflow-postgres
+
+    environment:
+      POSTGRES_USER: eventflow
+      POSTGRES_PASSWORD: eventflow_dev_password
+      POSTGRES_DB: eventflow
+
+    ports:
+      - '5433:5432'
+
+    volumes:
+      - eventflow_postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U eventflow -d eventflow']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  eventflow_postgres_data:
