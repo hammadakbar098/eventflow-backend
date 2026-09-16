@@ -43,6 +43,8 @@ model User {
   deletedAt DateTime?
 
   sessions AuthSession[]
+
+  organizedEvents Event[]
 }
 
 model AuthSession {
@@ -64,4 +66,182 @@ model AuthSession {
 
   @@index([userId])
   @@index([expiresAt])
+}
+
+enum EventStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+  SOLD_OUT
+  CANCELLED
+  POSTPONED
+  COMPLETED
+}
+
+enum EventFormat {
+  PHYSICAL
+  ONLINE
+  HYBRID
+}
+
+model Event {
+  id String @id @default(uuid()) @db.Uuid
+
+  organizerId String @db.Uuid
+
+  title       String @db.VarChar(200)
+  slug        String @unique @db.VarChar(220)
+  description String @db.Text
+
+  status EventStatus @default(DRAFT)
+  format EventFormat
+
+  startAt  DateTime
+  endAt    DateTime
+  timezone String   @db.VarChar(100)
+
+  capacity Int?
+
+  cancelledAt        DateTime?
+  cancellationReason String?   @db.VarChar(500)
+  postponedAt        DateTime?
+  postponementReason String?   @db.VarChar(500)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  organizer User          @relation(fields: [organizerId], references: [id], onDelete: Restrict)
+  category  EventCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  venue     Venue?        @relation(fields: [venueId], references: [id], onDelete: Restrict)
+
+  onlineDetails EventOnlineDetails?
+
+  categoryId String  @db.Uuid
+  venueId    String? @db.Uuid
+
+  tags  EventTag[]
+  media EventMedia[]
+
+  @@index([venueId])
+  @@index([categoryId])
+  @@index([organizerId])
+  @@index([status])
+  @@index([startAt])
+  @@index([deletedAt])
+}
+
+model EventCategory {
+  id String @id @default(uuid()) @db.Uuid
+
+  name        String  @unique @db.VarChar(100)
+  slug        String  @unique @db.VarChar(120)
+  description String? @db.Text
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events Event[]
+}
+
+model Tag {
+  id String @id @default(uuid()) @db.Uuid
+
+  name String @unique @db.VarChar(50)
+  slug String @unique @db.VarChar(60)
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events EventTag[]
+}
+
+model EventTag {
+  eventId String @db.Uuid
+  tagId   String @db.Uuid
+
+  createdAt DateTime @default(now())
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  tag   Tag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([eventId, tagId])
+  @@index([tagId])
+}
+
+enum EventMediaType {
+  COVER
+  GALLERY
+}
+
+model EventMedia {
+  id String @id @default(uuid()) @db.Uuid
+
+  eventId String @db.Uuid
+
+  type       EventMediaType
+  storageKey String         @unique @db.VarChar(500)
+
+  originalName String? @db.VarChar(255)
+  mimeType     String  @db.VarChar(100)
+  sizeBytes    Int?
+
+  width  Int?
+  height Int?
+
+  altText   String? @db.VarChar(255)
+  sortOrder Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@index([eventId])
+  @@index([eventId, type])
+}
+
+model Venue {
+  id String @id @default(uuid()) @db.Uuid
+
+  name String @db.VarChar(200)
+
+  addressLine1 String  @db.VarChar(255)
+  addressLine2 String? @db.VarChar(255)
+
+  city        String  @db.VarChar(100)
+  state       String? @db.VarChar(100)
+  postalCode  String  @db.VarChar(30)
+  countryCode String  @db.Char(2)
+
+  latitude  Decimal? @db.Decimal(9, 6)
+  longitude Decimal? @db.Decimal(9, 6)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events Event[]
+
+  @@index([city])
+  @@index([countryCode])
+}
+
+model EventOnlineDetails {
+  id String @id @default(uuid()) @db.Uuid
+
+  eventId String @unique @db.Uuid
+
+  platform           String  @db.VarChar(100)
+  accessUrl          String  @db.VarChar(2048)
+  accessCode         String? @db.VarChar(100)
+  accessInstructions String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }

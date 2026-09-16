@@ -24,3 +24,33 @@ export const UserStatus = {
 } as const
 
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+
+
+export const EventStatus = {
+  DRAFT: 'DRAFT',
+  SCHEDULED: 'SCHEDULED',
+  PUBLISHED: 'PUBLISHED',
+  SOLD_OUT: 'SOLD_OUT',
+  CANCELLED: 'CANCELLED',
+  POSTPONED: 'POSTPONED',
+  COMPLETED: 'COMPLETED'
+} as const
+
+export type EventStatus = (typeof EventStatus)[keyof typeof EventStatus]
+
+
+export const EventFormat = {
+  PHYSICAL: 'PHYSICAL',
+  ONLINE: 'ONLINE',
+  HYBRID: 'HYBRID'
+} as const
+
+export type EventFormat = (typeof EventFormat)[keyof typeof EventFormat]
+
+
+export const EventMediaType = {
+  COVER: 'COVER',
+  GALLERY: 'GALLERY'
+} as const
+
+export type EventMediaType = (typeof EventMediaType)[keyof typeof EventMediaType]

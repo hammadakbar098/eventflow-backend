@@ -12,7 +12,7 @@ export class AuthSessionsService {
     userAgent?: string;
     ipAddress?: string;
   }) {
-    this.prismaService.authSession.create({
+    return this.prismaService.authSession.create({
       data: {
         id: data.id,
         userId: data.userId,
@@ -20,6 +20,61 @@ export class AuthSessionsService {
         expiresAt: data.expiresAt,
         userAgent: data.userAgent,
         ipAddress: data.ipAddress,
+      },
+    });
+  }
+
+  findById(id: string) {
+    return this.prismaService.authSession.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        user: true,
+      },
+    });
+  }
+
+  rotateRefreshToken(data: {
+    sessionId: string;
+    currentRefreshTokenHash: string;
+    newRefreshTokenHash: string;
+  }) {
+    return this.prismaService.authSession.updateMany({
+      where: {
+        id: data.sessionId,
+        refreshTokenHash: data.currentRefreshTokenHash,
+        revokedAt: null,
+        expiresAt: {
+          gt: new Date(),
+        },
+      },
+      data: {
+        refreshTokenHash: data.newRefreshTokenHash,
+      },
+    });
+  }
+
+  revoke(sessionId: string) {
+    return this.prismaService.authSession.updateMany({
+      where: {
+        id: sessionId,
+        revokedAt: null,
+      },
+      data: {
+        revokedAt: new Date(),
+      },
+    });
+  }
+
+  revokeAllForUser(userId: string) {
+    return this.prismaService.authSession.updateMany({
+      where: {
+        userId,
+        revokedAt: null,
+      },
+      data: {
+        revokedAt: new Date(),
       },
     });
   }

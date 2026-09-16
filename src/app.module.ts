@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { EventsModule } from './events/events.module';
 
 import * as Joi from 'joi';
 
@@ -29,6 +30,7 @@ import * as Joi from 'joi';
     PrismaModule,
     UsersModule,
     AuthModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

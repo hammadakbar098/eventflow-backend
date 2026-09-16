@@ -49,3 +49,38 @@ export type User = Prisma.UserModel
  * 
  */
 export type AuthSession = Prisma.AuthSessionModel
+/**
+ * Model Event
+ * 
+ */
+export type Event = Prisma.EventModel
+/**
+ * Model EventCategory
+ * 
+ */
+export type EventCategory = Prisma.EventCategoryModel
+/**
+ * Model Tag
+ * 
+ */
+export type Tag = Prisma.TagModel
+/**
+ * Model EventTag
+ * 
+ */
+export type EventTag = Prisma.EventTagModel
+/**
+ * Model EventMedia
+ * 
+ */
+export type EventMedia = Prisma.EventMediaModel
+/**
+ * Model Venue
+ * 
+ */
+export type Venue = Prisma.VenueModel
+/**
+ * Model EventOnlineDetails
+ * 
+ */
+export type EventOnlineDetails = Prisma.EventOnlineDetailsModel

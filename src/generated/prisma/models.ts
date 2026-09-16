@@ -10,4 +10,11 @@
  */
 export type * from './models/User.js'
 export type * from './models/AuthSession.js'
+export type * from './models/Event.js'
+export type * from './models/EventCategory.js'
+export type * from './models/Tag.js'
+export type * from './models/EventTag.js'
+export type * from './models/EventMedia.js'
+export type * from './models/Venue.js'
+export type * from './models/EventOnlineDetails.js'
 export type * from './commonInputTypes.js'

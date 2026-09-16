@@ -52,7 +52,14 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  AuthSession: 'AuthSession'
+  AuthSession: 'AuthSession',
+  Event: 'Event',
+  EventCategory: 'EventCategory',
+  Tag: 'Tag',
+  EventTag: 'EventTag',
+  EventMedia: 'EventMedia',
+  Venue: 'Venue',
+  EventOnlineDetails: 'EventOnlineDetails'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -102,6 +109,117 @@ export const AuthSessionScalarFieldEnum = {
 } as const
 
 export type AuthSessionScalarFieldEnum = (typeof AuthSessionScalarFieldEnum)[keyof typeof AuthSessionScalarFieldEnum]
+
+
+export const EventScalarFieldEnum = {
+  id: 'id',
+  organizerId: 'organizerId',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  status: 'status',
+  format: 'format',
+  startAt: 'startAt',
+  endAt: 'endAt',
+  timezone: 'timezone',
+  capacity: 'capacity',
+  cancelledAt: 'cancelledAt',
+  cancellationReason: 'cancellationReason',
+  postponedAt: 'postponedAt',
+  postponementReason: 'postponementReason',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  categoryId: 'categoryId',
+  venueId: 'venueId'
+} as const
+
+export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+export const EventCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EventCategoryScalarFieldEnum = (typeof EventCategoryScalarFieldEnum)[keyof typeof EventCategoryScalarFieldEnum]
+
+
+export const TagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
+
+
+export const EventTagScalarFieldEnum = {
+  eventId: 'eventId',
+  tagId: 'tagId',
+  createdAt: 'createdAt'
+} as const
+
+export type EventTagScalarFieldEnum = (typeof EventTagScalarFieldEnum)[keyof typeof EventTagScalarFieldEnum]
+
+
+export const EventMediaScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  type: 'type',
+  storageKey: 'storageKey',
+  originalName: 'originalName',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  width: 'width',
+  height: 'height',
+  altText: 'altText',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EventMediaScalarFieldEnum = (typeof EventMediaScalarFieldEnum)[keyof typeof EventMediaScalarFieldEnum]
+
+
+export const VenueScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  addressLine1: 'addressLine1',
+  addressLine2: 'addressLine2',
+  city: 'city',
+  state: 'state',
+  postalCode: 'postalCode',
+  countryCode: 'countryCode',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VenueScalarFieldEnum = (typeof VenueScalarFieldEnum)[keyof typeof VenueScalarFieldEnum]
+
+
+export const EventOnlineDetailsScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  platform: 'platform',
+  accessUrl: 'accessUrl',
+  accessCode: 'accessCode',
+  accessInstructions: 'accessInstructions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EventOnlineDetailsScalarFieldEnum = (typeof EventOnlineDetailsScalarFieldEnum)[keyof typeof EventOnlineDetailsScalarFieldEnum]
 
 
 export const SortOrder = {
